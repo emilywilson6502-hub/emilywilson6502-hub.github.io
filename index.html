@@ -40,31 +40,78 @@
 
     <main class="screens" aria-live="polite">
       <section id="home-screen" class="screen is-active" data-screen="home">
-        <div class="balance-card">
-          <div class="balance-top">
-            <p class="balance-label">Balance</p>
-            <p class="balance-subtle" id="balance-hint">Available</p>
-          </div>
-          <h1 id="balance-display" class="balance">$0.00</h1>
-
-          <div class="home-actions">
-            <button class="btn btn-primary" type="button" id="home-send">
-              <span class="btn-icon" aria-hidden="true">↗</span>
-              <span>Send</span>
-            </button>
-            <button class="btn btn-ghost" type="button" id="home-request">
-              <span class="btn-icon" aria-hidden="true">↘</span>
-              <span>Request</span>
-            </button>
+        <div class="home-header">
+          <div>
+            <p class="money-label">Money</p>
           </div>
         </div>
 
-        <div class="section">
-          <div class="section-head">
-            <h2 class="section-title">Recent</h2>
-            <button class="link-btn" type="button" data-nav="history">See all</button>
-          </div>
-          <ul id="recent-list" class="tx-list" aria-label="Recent transactions"></ul>
+        <div class="money-scroll">
+          <section class="balance-panel" aria-label="Cash balance">
+            <div class="balance-panel-top">
+              <div>
+                <p class="balance-label">Cash balance</p>
+                <p class="balance-subtle" id="balance-hint">Available</p>
+              </div>
+              <button class="link-btn link-small" type="button" data-nav="history">
+                Account &amp; routing →
+              </button>
+            </div>
+
+            <h1 id="balance-display" class="balance">$100.00</h1>
+
+            <div class="balance-cta-row">
+              <button class="btn btn-primary btn-soft" type="button" id="home-send">
+                Send 
+              </button>
+              <button class="btn btn-ghost btn-soft" type="button" id="home-request">
+               Request
+              </button>
+            </div>
+          </section>
+
+          <section class="feature-section" aria-label="Money tools">
+            <div class="feature-grid">
+              <button class="feature-card" type="button">
+                <span class="feature-icon feature-icon-blue">✈</span>
+                <span class="feature-title">Savings</span>
+                <span class="feature-sub">$185.00 · up to 4.5%</span>
+              </button>
+              <button class="feature-card" type="button">
+                <span class="feature-icon feature-icon-sky">↻</span>
+                <span class="feature-title">Borrow</span>
+                <span class="feature-sub">$0.00 · available</span>
+              </button>
+              <button class="feature-card" type="button">
+                <span class="feature-icon feature-icon-purple">🏛</span>
+                <span class="feature-title">Taxes</span>
+                <span class="feature-sub">Pay $20 to file</span>
+              </button>
+              <button class="feature-card" type="button">
+                <span class="feature-icon feature-icon-green">⬇</span>
+                <span class="feature-title">Paychecks</span>
+                <span class="feature-sub">Get direct deposits</span>
+              </button>
+              <button class="feature-card" type="button">
+                <span class="feature-icon feature-icon-cyan">₿</span>
+                <span class="feature-title">Bitcoin</span>
+                <span class="feature-sub">Buy, sell, &amp; send</span>
+              </button>
+              <button class="feature-card" type="button">
+                <span class="feature-icon feature-icon-violet">↗</span>
+                <span class="feature-title">Stocks</span>
+                <span class="feature-sub">Invest for as little as $1</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="section">
+            <div class="section-head">
+              <h2 class="section-title">Recent</h2>
+              <button class="link-btn" type="button" data-nav="history">See all</button>
+            </div>
+            <ul id="recent-list" class="tx-list" aria-label="Recent transactions"></ul>
+          </section>
         </div>
       </section>
 
@@ -246,19 +293,35 @@
 
     <nav class="bottom-nav">
       <button class="nav-btn" type="button" data-nav="home" aria-label="Home">
-        <span class="nav-ico" aria-hidden="true">⌂</span>
+        <svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 10.5 12 4l8 6.5V20a1.5 1.5 0 0 1-1.5 1.5H5.5A1.5 1.5 0 0 1 4 20v-9.5Z"/>
+          <path d="M9.5 21.5V14a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 14.5 14v7.5"/>
+        </svg>
       </button>
       <button class="nav-btn" type="button" data-nav="history" aria-label="Activity">
-        <span class="nav-ico" aria-hidden="true">≡</span>
+        <svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 7h12M6 12h12M6 17h10"/>
+          <path d="M4.5 7h.01M4.5 12h.01M4.5 17h.01"/>
+        </svg>
       </button>
       <button class="nav-send" type="button" data-nav="send" aria-label="Send">
-        <span class="nav-ico" aria-hidden="true">↗</span>
+        <svg class="nav-ico nav-ico-send" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M5 12h12"/>
+          <path d="M13 6l6 6-6 6"/>
+        </svg>
+        <span class="nav-money" aria-hidden="true">$</span>
       </button>
       <button class="nav-btn" type="button" id="nav-request" aria-label="Request">
-        <span class="nav-ico" aria-hidden="true">↘</span>
+        <svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M19 12H7"/>
+          <path d="M11 6l-6 6 6 6"/>
+        </svg>
       </button>
       <button class="nav-btn" type="button" id="nav-settings" aria-label="Settings">
-        <span class="nav-ico" aria-hidden="true">⚙</span>
+        <svg class="nav-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/>
+          <path d="M19.4 13.2a7.9 7.9 0 0 0 0-2.4l-2-.3a6.9 6.9 0 0 0-.7-1.6l1.2-1.6a8.5 8.5 0 0 0-1.7-1.7l-1.6 1.2a6.9 6.9 0 0 0-1.6-.7l-.3-2a7.9 7.9 0 0 0-2.4 0l-.3 2a6.9 6.9 0 0 0-1.6.7L6 3.6A8.5 8.5 0 0 0 4.3 5.3l1.2 1.6a6.9 6.9 0 0 0-.7 1.6l-2 .3a7.9 7.9 0 0 0 0 2.4l2 .3c.2.6.4 1.1.7 1.6l-1.2 1.6c.5.6 1 1.2 1.7 1.7L7.7 17a6.9 6.9 0 0 0 1.6.7l.3 2a7.9 7.9 0 0 0 2.4 0l.3-2a6.9 6.9 0 0 0 1.6-.7l1.6 1.2c.6-.5 1.2-1 1.7-1.7l-1.2-1.6c.3-.5.5-1 .7-1.6l2-.3Z"/>
+        </svg>
       </button>
     </nav>
 
