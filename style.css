@@ -31,7 +31,7 @@ body{
   color: var(--text);
   display: grid;
   place-items: center;
-  padding: 16px;
+  padding: 0;
 }
 
 body.light{
@@ -51,7 +51,7 @@ body.light{
 
 .app-shell{
   width: min(420px, 100%);
-  height: min(820px, 100dvh - 32px);
+  height: 100dvh;
   background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.00)),
               var(--surface);
   border: 1px solid var(--border);
@@ -61,6 +61,15 @@ body.light{
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+/* On small mobile screens, let the app fully fill the viewport */
+@media (max-width: 480px){
+  .app-shell{
+    width: 100%;
+    border-radius: 0;
+    border-width: 0;
+  }
 }
 
 /* Header */
@@ -183,11 +192,16 @@ body.light{
 .screen{
   height: 100%;
   overflow: auto;
-  padding-bottom: calc(86px + var(--safe-bottom));
+  padding-bottom: calc(96px + var(--safe-bottom));
   display: none;
   animation: fadeIn .22s ease both;
 }
 .screen.is-active{ display: block; }
+
+/* Make the main payment receipt screen use a light background even in dark mode */
+body:not(.light) #receipt-screen.screen{
+  background: var(--surface);
+}
 @keyframes fadeIn{
   from{ opacity: 0; transform: translateY(6px); }
   to{ opacity: 1; transform: translateY(0); }
@@ -261,6 +275,52 @@ body.light{
   line-height: 1.08;
   letter-spacing: -1.2px;
   font-weight: 950;
+}
+
+.home-header{
+  padding: 10px 16px 4px;
+}
+.money-label{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 950;
+  letter-spacing: -0.6px;
+}
+
+.money-scroll{
+  padding-bottom: 6px;
+}
+
+.balance-panel{
+  margin: 4px 14px 10px;
+  border-radius: 26px;
+  background: #f5f7fb;
+  padding: 16px 16px 14px;
+  box-shadow: 0 10px 26px rgba(12,13,18,0.08);
+}
+body:not(.light) .balance-panel{
+  background: #14171f;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.55);
+  color: var(--text);
+}
+.balance-panel-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.link-small{
+  padding-inline: 0;
+  font-size: 12px;
+}
+.balance-cta-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.btn-soft{
+  border-radius: 18px;
+  padding-block: 12px;
 }
 
 .home-actions{
@@ -403,6 +463,61 @@ body.light{
   color: var(--muted);
   margin-top: 2px;
 }
+
+.feature-section{
+  padding: 2px 14px 10px;
+}
+.feature-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.feature-card{
+  border-radius: 20px;
+  padding: 10px 10px 9px;
+  background: #ffffff;
+  border: 1px solid rgba(15,17,20,0.06);
+  text-align: left;
+  display: grid;
+  gap: 6px;
+  align-content: flex-start;
+}
+body:not(.light) .feature-card{
+  background: #111317;
+  border-color: rgba(255,255,255,0.05);
+}
+.feature-icon{
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: #0b0c0e;
+}
+.feature-icon-blue{ background: #e0f2ff; color: #0066ff; }
+.feature-icon-sky{ background: #e0f7ff; color: #0096ff; }
+.feature-icon-purple{ background: #efe1ff; color: #7b3cff; }
+.feature-icon-green{ background: #e0ffe9; color: #00c853; }
+.feature-icon-cyan{ background: #e0faff; color: #00bcd4; }
+.feature-icon-violet{ background: #f2e6ff; color: #8e24aa; }
+.feature-title{
+  font-size: 14px;
+  font-weight: 900;
+  color: #101218;
+}
+.feature-sub{
+  font-size: 11px;
+  font-weight: 700;
+  color: #8b90a0;
+}
+body:not(.light) .feature-title{
+  color: var(--text);
+}
+body:not(.light) .feature-sub{
+  color: var(--muted);
+}
 .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
 
 /* Send */
@@ -479,7 +594,7 @@ body.light{
   inset: 0;
   background: rgba(0,0,0,0.55);
   display: grid;
-  place-items: end center;
+  place-items: center;
   padding: 14px;
   z-index: 50;
   animation: overlayIn .16s ease both;
@@ -568,6 +683,10 @@ body.light{
   background: rgba(255,255,255,0.02);
   overflow: hidden;
 }
+body.light .receipt-card{
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.12);
+}
 .receipt-row{
   display: flex;
   justify-content: space-between;
@@ -580,6 +699,20 @@ body.light{
 .receipt-v{ font-weight: 950; }
 .receipt-row-big .receipt-v{ font-size: 22px; letter-spacing: -0.6px; }
 .green{ color: var(--green); }
+
+/* Dark-mode receipt: dark card with bright text */
+body:not(.light) .receipt-card{
+  background: #111317;
+  border-color: rgba(255,255,255,0.10);
+}
+body:not(.light) .receipt-title,
+body:not(.light) .receipt-v{
+  color: var(--text);
+}
+body:not(.light) .receipt-sub,
+body:not(.light) .receipt-k{
+  color: var(--muted);
+}
 .status-pill{
   padding: 4px 10px;
   border-radius: 999px;
@@ -608,6 +741,10 @@ body.light{
 }
 body.light .txdetail-card{
   box-shadow: 0 16px 36px rgba(10,12,14,0.14);
+}
+body:not(.light) .txdetail-card{
+  background: #111317;
+  color: var(--text);
 }
 .txdetail-icon{
   width: 54px; height: 54px;
@@ -714,6 +851,23 @@ body.light .txdetail-card{
   display: grid;
 }
 
+/* Dark-mode overrides for activity receipt detail */
+body:not(.light) .txdetail-title,
+body:not(.light) .txdetail-amount{
+  color: var(--text);
+}
+body:not(.light) .txdetail-sub,
+body:not(.light) .txdetail-row,
+body:not(.light) .txdetail-row .k,
+body:not(.light) .txdetail-foot,
+body:not(.light) .txdetail-meta-row .k{
+  color: var(--muted);
+}
+body:not(.light) .txdetail-row .v,
+body:not(.light) .txdetail-meta-row .v{
+  color: var(--text);
+}
+
 /* Checkmark animation */
 .checkmark-wrap{
   width: 78px; height: 78px;
@@ -815,7 +969,7 @@ body.light .txdetail-card{
 .bottom-nav{
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  padding: 10px 12px calc(12px + var(--safe-bottom));
+  padding: 6px 10px calc(6px + var(--safe-bottom));
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
@@ -834,6 +988,7 @@ body.light .txdetail-card{
   place-items: center;
   transition: transform .12s ease, background .18s ease, color .18s ease;
 }
+.nav-btn:hover{ background: rgba(255,255,255,0.04); }
 .nav-btn:active{ transform: scale(0.97); }
 .nav-send{
   height: 58px;
@@ -843,14 +998,39 @@ body.light .txdetail-card{
   color: #07110a;
   display: grid;
   place-items: center;
+  position: relative;
   box-shadow: 0 16px 34px rgba(25,210,107,0.18);
   transform: translateY(-10px);
   transition: transform .12s ease, filter .18s ease;
 }
 .nav-send:active{ transform: translateY(-10px) scale(0.98); }
 .nav-ico{
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.nav-send .nav-ico{
+  width: 24px;
+  height: 24px;
+}
+.nav-money{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
   font-weight: 950;
-  font-size: 18px;
+  background: rgba(255,255,255,0.30);
+  border: 1px solid rgba(255,255,255,0.42);
+  color: #07110a;
 }
 
 /* Print (Download as PDF) */
