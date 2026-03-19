@@ -467,6 +467,9 @@
       setActiveScreen(nav);
     });
 
+    // Home primary CTAs:
+    // - "Send" button should SEND money (debit)
+    // - "Request" button should RECEIVE money (credit demo)
     $("#home-send")?.addEventListener("click", () => {
       setAmountStr("0");
       $("#receiver-input").value = "";
