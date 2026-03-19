@@ -1,7 +1,7 @@
 {
-  "name": "Cash App • Fintech Demo",
-  "short_name": "Cash Demo",
-  "description": "Cash App–inspired fintech demo (vanilla HTML/CSS/JS).",
+  "name": "Cash App",
+  "short_name": "Cash App",
+  "description": "Cash App–inspired banking app (vanilla HTML/CSS/JS).",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -16,4 +16,5 @@
     }
   ]
 }
+
 
