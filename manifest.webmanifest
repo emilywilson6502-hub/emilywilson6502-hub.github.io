@@ -1,0 +1,19 @@
+{
+  "name": "Cash App • Fintech Demo",
+  "short_name": "Cash Demo",
+  "description": "Cash App–inspired fintech demo (vanilla HTML/CSS/JS).",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0c0e",
+  "theme_color": "#00c853",
+  "icons": [
+    {
+      "src": "./pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+

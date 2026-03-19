@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cash App •</title>
+  <meta name="theme-color" content="#00c853" />
+  <meta name="description" content="Cash App–inspired fintech demo (vanilla HTML/CSS/JS)." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="app-shell" id="app">
+    <header class="app-header">
+      <div class="header-left">
+        <div class="brand" role="img" aria-label="Cash App style brand">
+          <span class="brand-mark brand-mark-img">
+            <img src="istockphoto-886560806-612x612.jpg" alt="Profile" width="24" height="24" />
+          </span>
+          <span class="brand-name">Cash App</span>
+        </div>
+      </div>
+
+      <nav class="header-center" aria-label="Primary">
+        <button class="nav-tab is-active" type="button" data-nav="home">Home</button>
+        <button class="nav-tab" type="button" data-nav="history">Activity</button>
+      </nav>
+
+      <div class="header-right">
+        <button class="icon-btn" type="button" id="dark-toggle" aria-label="Toggle dark mode" title="Dark mode">
+          <span class="icon-moon" aria-hidden="true"></span>
+        </button>
+        <div class="avatar" aria-hidden="true">
+          <span class="avatar-dot"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="screens" aria-live="polite">
+      <section id="home-screen" class="screen is-active" data-screen="home">
+        <div class="balance-card">
+          <div class="balance-top">
+            <p class="balance-label">Balance</p>
+            <p class="balance-subtle" id="balance-hint">Available</p>
+          </div>
+          <h1 id="balance-display" class="balance">$0.00</h1>
+
+          <div class="home-actions">
+            <button class="btn btn-primary" type="button" id="home-send">
+              <span class="btn-icon" aria-hidden="true">↗</span>
+              <span>Send</span>
+            </button>
+            <button class="btn btn-ghost" type="button" id="home-request">
+              <span class="btn-icon" aria-hidden="true">↘</span>
+              <span>Request</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-head">
+            <h2 class="section-title">Recent</h2>
+            <button class="link-btn" type="button" data-nav="history">See all</button>
+          </div>
+          <ul id="recent-list" class="tx-list" aria-label="Recent transactions"></ul>
+        </div>
+      </section>
+
+      <section id="send-screen" class="screen" data-screen="send">
+        <div class="screen-header">
+          <button class="icon-btn" type="button" data-nav="home" aria-label="Back to home">←</button>
+          <h2 class="screen-title">Send money</h2>
+          <button class="text-btn" type="button" data-nav="home">Cancel</button>
+        </div>
+
+        <div class="send-body">
+          <label class="field">
+            <span class="field-label">To</span>
+            <input type="text" id="receiver-input" class="input" placeholder="Name, $Cashtag or phone" autocomplete="off" />
+          </label>
+
+          <div class="amount-visual" aria-label="Amount">
+            <span class="amount-currency" aria-hidden="true">$</span>
+            <span id="amount-display" class="amount-value">0.00</span>
+          </div>
+
+          <button class="btn btn-primary send-continue" type="button" id="continue-send" disabled>
+            Continue
+            <span class="btn-trailing" aria-hidden="true">→</span>
+          </button>
+
+          <div class="keypad" role="group" aria-label="Numeric keypad">
+            <button class="key" type="button" data-key="1">1</button>
+            <button class="key" type="button" data-key="2">2</button>
+            <button class="key" type="button" data-key="3">3</button>
+            <button class="key" type="button" data-key="4">4</button>
+            <button class="key" type="button" data-key="5">5</button>
+            <button class="key" type="button" data-key="6">6</button>
+            <button class="key" type="button" data-key="7">7</button>
+            <button class="key" type="button" data-key="8">8</button>
+            <button class="key" type="button" data-key="9">9</button>
+            <button class="key key-secondary" type="button" data-key=".">.</button>
+            <button class="key" type="button" data-key="0">0</button>
+            <button class="key key-secondary" type="button" data-key="back" aria-label="Backspace">⌫</button>
+          </div>
+
+          <div id="confirm-overlay" class="overlay is-hidden" role="dialog" aria-modal="true" aria-label="Confirm payment">
+            <div class="sheet">
+              <div class="sheet-grabber" aria-hidden="true"></div>
+              <h3 class="sheet-title">Confirm</h3>
+              <p class="sheet-subtitle">
+                Send <span id="confirm-amount" class="pill">$0.00</span>
+                to <span id="confirm-name" class="pill">—</span>?
+              </p>
+              <div class="sheet-actions">
+                <button class="btn btn-primary" type="button" id="confirm-yes">Yes, send now</button>
+                <button class="btn btn-muted" type="button" id="confirm-no">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="history-screen" class="screen" data-screen="history">
+        <div class="screen-header">
+          <button class="icon-btn" type="button" data-nav="home" aria-label="Back to home">←</button>
+          <h2 class="screen-title">Activity</h2>
+          <label class="select-wrap" aria-label="Filter transactions">
+            <select id="history-filter" class="select">
+              <option value="all">All</option>
+              <option value="debit">Sent</option>
+              <option value="credit">Received</option>
+            </select>
+          </label>
+        </div>
+        <div class="section">
+          <ul id="full-history" class="tx-list" aria-label="All transactions"></ul>
+        </div>
+      </section>
+
+      <section id="receipt-screen" class="screen" data-screen="receipt">
+        <div class="receipt-hero">
+          <div class="checkmark-wrap" aria-hidden="true">
+            <svg class="checkmark" viewBox="0 0 52 52">
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"></circle>
+              <path class="checkmark-check" fill="none" d="M14 27 l7 7 l17 -17"></path>
+            </svg>
+          </div>
+          <h2 class="receipt-title">Payment sent</h2>
+          <p class="receipt-sub" id="receipt-date"></p>
+        </div>
+
+        <div class="receipt-card" id="receipt-card">
+          <div class="receipt-row">
+            <span class="receipt-k">Transaction ID</span>
+            <span class="receipt-v mono" id="receipt-id"></span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-k">To</span>
+            <span class="receipt-v" id="receipt-to"></span>
+          </div>
+          <div class="receipt-row receipt-row-big">
+            <span class="receipt-k">Amount</span>
+            <span class="receipt-v green" id="receipt-amount"></span>
+          </div>
+          <div class="receipt-row">
+            <span class="receipt-k">Status</span>
+            <span class="receipt-v status-pill" id="receipt-status">Completed</span>
+          </div>
+        </div>
+
+        <div class="receipt-actions">
+          <button class="btn btn-primary" type="button" id="download-pdf">Download as PDF</button>
+          <button class="btn btn-muted" type="button" data-nav="home">Done</button>
+        </div>
+      </section>
+
+      <section id="txdetail-screen" class="screen" data-screen="txdetail">
+        <div class="screen-header">
+          <button class="icon-btn" type="button" data-nav="history" aria-label="Back to activity">←</button>
+          <h2 class="screen-title">Details</h2>
+          <span aria-hidden="true"></span>
+        </div>
+
+        <div class="txdetail">
+          <div class="txdetail-card">
+            <div class="txdetail-icon" aria-hidden="true">
+              <span class="txdetail-icon-inner">$</span>
+            </div>
+
+            <h2 class="txdetail-title" id="txdetail-title">Money sent</h2>
+            <p class="txdetail-sub" id="txdetail-sub">Today at 9:40 AM</p>
+
+            <div class="txdetail-amount" id="txdetail-amount">$0.00</div>
+
+            <div class="txdetail-divider" aria-hidden="true"></div>
+
+            <h3 class="txdetail-section">Exchange rate and fees</h3>
+            <div class="txdetail-rows">
+              <div class="txdetail-row">
+                <span class="k">Transfer amount</span>
+                <span class="v" id="txdetail-transfer">$0.00</span>
+              </div>
+              <div class="txdetail-row">
+                <span class="k">Exchange rate</span>
+                <span class="v" id="txdetail-rate">1 USD = 1.0000 USDC</span>
+              </div>
+              <div class="txdetail-row">
+                <span class="k">Fees</span>
+                <span class="v" id="txdetail-fees">$0.00</span>
+              </div>
+              <div class="txdetail-row txdetail-row-strong">
+                <span class="k" id="txdetail-total-label">Total sent</span>
+                <span class="v" id="txdetail-total">0.00 USDC</span>
+              </div>
+            </div>
+
+            <p class="txdetail-foot" id="txdetail-foot">
+              US dollars from your Cash balance were sent as USDC.
+            </p>
+
+            <div class="txdetail-meta">
+              <div class="txdetail-meta-row">
+                <span class="k">Transaction ID</span>
+                <span class="v mono" id="txdetail-id"></span>
+              </div>
+              <div class="txdetail-meta-row">
+                <span class="k">Status</span>
+                <span class="v" id="txdetail-status"></span>
+              </div>
+              <div class="txdetail-meta-row">
+                <span class="k" id="txdetail-to-label">To</span>
+                <span class="v" id="txdetail-to"></span>
+              </div>
+            </div>
+
+            <div class="txdetail-actions">
+              <button class="btn btn-danger" type="button" id="txdetail-delete">Delete activity</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn" type="button" data-nav="home" aria-label="Home">
+        <span class="nav-ico" aria-hidden="true">⌂</span>
+      </button>
+      <button class="nav-btn" type="button" data-nav="history" aria-label="Activity">
+        <span class="nav-ico" aria-hidden="true">≡</span>
+      </button>
+      <button class="nav-send" type="button" data-nav="send" aria-label="Send">
+        <span class="nav-ico" aria-hidden="true">↗</span>
+      </button>
+      <button class="nav-btn" type="button" id="nav-request" aria-label="Request">
+        <span class="nav-ico" aria-hidden="true">↘</span>
+      </button>
+      <button class="nav-btn" type="button" id="nav-settings" aria-label="Settings">
+        <span class="nav-ico" aria-hidden="true">⚙</span>
+      </button>
+    </nav>
+
+    <div id="toast" class="toast is-hidden" role="status" aria-live="polite">
+      <span class="toast-ico" aria-hidden="true">✓</span>
+      <span id="toast-text" class="toast-text"></span>
+    </div>
+
+    <div id="loading" class="loading is-hidden" aria-live="polite" aria-label="Loading">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="loading-text">Sending securely…</p>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
